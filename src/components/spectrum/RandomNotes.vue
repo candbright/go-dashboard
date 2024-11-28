@@ -2,12 +2,20 @@
   <div class="container">
     <div>
       <el-input-number v-model="num" :min="1" :max="500"></el-input-number>
+      <el-select class="select" v-model="mode" placeholder="请选择生成模式">
+        <el-option
+          v-for="item in modeOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-button class="button" type="primary" @click="generateRandom">随机生成</el-button>
     </div>
     <div class="line"></div>
     <div class="l-t-arrow"></div>
     <div class="container-note" v-if="notes.length !== 0">
-      <div class="container-note-row" v-for="note in notes">
+      <div class="container-note-row" v-for="(note, index) in notes" :key="index">
         <el-image class="note" :src="bottom_left_note" v-if="note === 3"></el-image>
         <div class="note-blank" v-else></div>
         <el-image class="note" :src="top_left_note" v-if="note === 0"></el-image>
@@ -24,34 +32,50 @@
 </template>
 
 <script>
-import {random} from "@/api/spectrum/spectrum.js"
+import { random } from '@/api/spectrum/spectrum.js'
 import top_left_note from '@/assets/notes/top_left_note.png'
 import top_right_note from '@/assets/notes/top_right_note.png'
 import mid_note from '@/assets/notes/mid_note.png'
 import bottom_left_note from '@/assets/notes/bottom_left_note.png'
 import bottom_right_note from '@/assets/notes/bottom_right_note.png'
 
-
 export default {
-  name: "ServerInfo",
+  name: 'ServerInfo',
   data() {
     return {
       num: 1,
+      mode: 0,
+      modeOptions: [
+        {
+          value: 0,
+          label: '抖动'
+        },
+        {
+          value: 1,
+          label: '跑步'
+        }
+      ],
       notes: [],
       top_left_note,
       top_right_note,
       mid_note,
       bottom_left_note,
-      bottom_right_note,
+      bottom_right_note
     }
   },
   methods: {
     generateRandom() {
-      random(this.num).then(res => {
+      random({
+        num: this.num,
+        mode: this.mode
+      }).then(res => {
         this.notes = res.data
       }).catch(err => {
-        this.$message.error("请求失败: " + err)
+        this.$message.error('请求失败: ' + err)
       })
+    },
+    generateKey(res) {
+      return res
     }
   }
 }
@@ -89,6 +113,11 @@ export default {
 
 .button {
   margin-left: 10px;
+}
+
+.select {
+  margin-left: 10px;
+  width: 100px;
 }
 
 .line {

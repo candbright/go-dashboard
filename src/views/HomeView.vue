@@ -1,9 +1,9 @@
 <template>
   <main>
-    <Server/>
+    <RandomNotes/>
   </main>
 </template>
 
 <script setup>
-import Server from '../components/ServerInfo.vue'
+import RandomNotes from '../components/spectrum/RandomNotes.vue'
 </script>
