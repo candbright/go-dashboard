@@ -1,18 +1,17 @@
 <template>
   <div class="container">
-    <div>
-      <el-input-number v-model="num" :min="1" :max="500"></el-input-number>
-      <el-select class="select" v-model="mode" placeholder="请选择生成模式">
+    <el-row :gutter="20" style="max-width: 512px">
+      <el-col :span="8"><el-input-number v-model="num" :min="1" :max="500"></el-input-number></el-col>
+      <el-col :span="8"><el-select class="select" v-model="mode" placeholder="请选择生成模式">
         <el-option
           v-for="item in modeOptions"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
-      </el-select>
-      <el-button class="button" type="primary" @click="generateRandom">随机生成</el-button>
-    </div>
-    <div class="line"></div>
+      </el-select></el-col>
+      <el-col :span="8"><el-button type="primary" @click="generateRandom">随机生成</el-button></el-col>
+    </el-row>
     <div class="l-t-arrow"></div>
     <div class="container-note" v-if="notes.length !== 0">
       <div class="container-note-row" v-for="(note, index) in notes" :key="index">
@@ -82,10 +81,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 10px;
-}
-
 .container-note {
   margin: 10px;
 }
@@ -111,20 +106,9 @@ export default {
   border: 1px solid gray;
 }
 
-.button {
-  margin-left: 10px;
-}
-
 .select {
-  margin-left: 10px;
   width: 100px;
 }
 
-.line {
-  width: 100%;
-  height: 1px;
-  margin-top: 10px;
-  background-color: var(--el-color-primary);
-}
 
 </style>
